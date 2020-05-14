@@ -11,14 +11,14 @@ variable "environment" {
 ##############################################################################
 module "vpc" {
 
-    source = "./modules/vpc"
+    source = "github.com/dwakeman/ibmcloud-terraform-modules.git//modules/vpc?ref=v0.1.0-alpha"
     
     vpc_name                   = var.vpc_name
     region                     = var.region
     environment                = var.environment
     schematics_workspace_name  = var.schematics_workspace_name
     vpc_resource_group         = var.vpc_resource_group
-    address_prefix_cidr_blocks = ["10.1.0.0/21", "10.1.8.0/21", "10.1.16.0/21"]
+    address_prefix_cidr_blocks = ["${var.address_prefix_1}", "${var.address_prefix_2}", "${var.address_prefix_3}"]
 
 }
 
@@ -27,7 +27,7 @@ module "vpc" {
 # Create Public Gateways
 ##############################################################################
 module "public_gateways" {
-    source = "./modules/public_gateways"
+    source = "github.com/dwakeman/ibmcloud-terraform-modules.git//modules/public_gateways?ref=v0.1.0-alpha"
 
     vpc_resource_group = var.vpc_resource_group
     vpc_id             = module.vpc.vpc_id
@@ -41,7 +41,7 @@ module "public_gateways" {
 # Create Application Subnets
 ##############################################################################
 module "app_subnets" {
-    source = "./modules/subnets"
+    source = "github.com/dwakeman/ibmcloud-terraform-modules.git//modules/subnets?ref=v0.1.0-alpha"
 
     vpc_id             = module.vpc.vpc_id
     resource_group     = data.ibm_resource_group.vpc_resource_group.id
