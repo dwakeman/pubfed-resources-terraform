@@ -2,6 +2,10 @@ data "ibm_resource_group" "vpc_resource_group" {
     name = "${var.vpc_resource_group}"
 }
 
+data "ibm_resource_group" "env_resource_group" {
+    name = "${var.env_resource_group}"
+}
+
 variable "environment" {
     default = "sandbox"
 }
@@ -53,7 +57,29 @@ module "app_subnets" {
 
 }
 
-
+##############################################################################
+# Create IKS Cluster
+##############################################################################
+resource "ibm_container_vpc_cluster" "app_cluster" {
+    name              = "pubfed-app-iks-cluster-01"
+    vpc_id            = module.vpc.vpc_id
+    flavor            = "bx2.4x16"
+    kube_version      = "1.17"
+    worker_count      = "1"
+    resource_group_id = data.ibm_resource_group.env_resource_group.id
+    zones {
+        subnet_id = module.app_subnets.subnet1_id
+        name      = "${var.region}-1"
+    }
+    zones {
+        subnet_id = module.app_subnets.subnet2_id
+        name      = "${var.region}-2"
+    }
+    zones {
+        subnet_id = module.app_subnets.subnet3_id
+        name      = "${var.region}-3"
+    }
+}
 
 output vpc_id {
  value = module.vpc.vpc_id

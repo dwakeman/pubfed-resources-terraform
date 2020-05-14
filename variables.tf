@@ -7,6 +7,10 @@ variable "vpc_name" {
 }
 
 variable "vpc_resource_group" {
+    default = "pubfed-vpc"
+}
+
+variable "env_resource_group" {
     default = "pubfed-env"
 }
 
