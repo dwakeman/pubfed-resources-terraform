@@ -74,7 +74,7 @@ module "app_subnets" {
 # Create OCP Cluster
 ##############################################################################
 resource "ibm_container_vpc_cluster" "app_ocp_cluster-01" {
-    name                            = "${var.environment}-ocp-01"
+    name                            = "pubfed-cp4a-01"
     vpc_id                          = module.vpc.vpc_id
     flavor                          = "bx2.8x32"
     kube_version                    = "4.3_openshift"
@@ -101,7 +101,7 @@ resource "ibm_container_vpc_cluster" "app_ocp_cluster-01" {
 # Create IKS Cluster
 ##############################################################################
 resource "ibm_container_vpc_cluster" "app_cluster" {
-    name              = "pubfed-app-iks-cluster-01"
+    name              = "pubfed-iks-01"
     vpc_id            = module.vpc.vpc_id
     flavor            = "bx2.4x16"
     kube_version      = "1.17"
