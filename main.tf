@@ -76,7 +76,7 @@ module "app_subnets" {
 resource "ibm_container_vpc_cluster" "app_ocp_cluster-01" {
     name                            = "${var.environment}-ocp-01"
     vpc_id                          = module.vpc.vpc_id
-    flavor                          = "bx2.4x16"
+    flavor                          = "bx2.8x32"
     kube_version                    = "4.3_openshift"
     worker_count                    = "2"
     entitlement                     = "cloud_pak"
