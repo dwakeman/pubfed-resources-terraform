@@ -6,6 +6,19 @@ data "ibm_resource_group" "env_resource_group" {
     name = "${var.env_resource_group}"
 }
 
+data "ibm_resource_group" "cos_group" {
+  name = var.admin_resource_group
+}
+
+data "ibm_resource_instance" "cos_instance" {
+  name              = var.cos_registry_instance
+  resource_group_id = data.ibm_resource_group.cos_group.id
+  service           = "cloud-object-storage"
+}
+
+
+
+
 variable "environment" {
     default = "sandbox"
 }
@@ -58,6 +71,33 @@ module "app_subnets" {
 }
 
 ##############################################################################
+# Create OCP Cluster
+##############################################################################
+resource "ibm_container_vpc_cluster" "app_ocp_cluster-01" {
+    name                            = "${var.environment}-ocp-01"
+    vpc_id                          = module.vpc.vpc_id
+    flavor                          = "bx2.4x16"
+    kube_version                    = "4.3_openshift"
+    worker_count                    = "2"
+    entitlement                     = "cloud_pak"
+    wait_till                       = "MasterNodeReady"
+    disable_public_service_endpoint = false
+    cos_instance_crn                = data.ibm_resource_instance.cos_instance.id
+    resource_group_id               = data.ibm_resource_group.env_resource_group.id
+    tags                            = ["env:${var.environment}","vpc:${var.vpc_name}","schematics:${var.schematics_workspace_name}"]
+    zones {
+        subnet_id = module.app_subnets.subnet1_id
+        name      = "${var.region}-1"
+    }
+    zones {
+        subnet_id = module.app_subnets.subnet2_id
+        name      = "${var.region}-2"
+    }
+}
+
+
+/*
+##############################################################################
 # Create IKS Cluster
 ##############################################################################
 resource "ibm_container_vpc_cluster" "app_cluster" {
@@ -80,6 +120,12 @@ resource "ibm_container_vpc_cluster" "app_cluster" {
         name      = "${var.region}-3"
     }
 }
+*/
+
+
+
+
+
 
 output vpc_id {
  value = module.vpc.vpc_id

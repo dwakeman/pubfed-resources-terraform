@@ -1,9 +1,10 @@
 variable "schematics_workspace_name" {
     description = "the name of the schematics workspace.  Used to create a tag"
+    default = "schematics-not-used"
 }
 
 variable "vpc_name" {
-    default = "pubfed-vpc-dallas"
+    default = "pubfed-dallas"
 }
 
 variable "vpc_resource_group" {
@@ -21,6 +22,18 @@ variable "region" {
 variable "generation" {
     default = 2
 }
+
+variable "admin_resource_group" {
+    description = "The name of the resource group for the Admin IKS cluster"
+    default = "account-admin-services"
+}
+
+variable "cos_registry_instance" {
+    description = "the name of the COS instance for the Openshift Registry bucket"
+    default = "cos-openshift-registry"
+}
+
+
 
 variable address_prefix_1 {
     default = "10.1.64.0/21"
