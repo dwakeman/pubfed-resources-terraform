@@ -69,7 +69,7 @@ module "app_subnets" {
     public_gateways    = [module.public_gateways.zone1_gateway_id, module.public_gateways.zone2_gateway_id, module.public_gateways.zone3_gateway_id]
 
 }
-
+/*
 ##############################################################################
 # Create OCP Cluster
 ##############################################################################
@@ -94,7 +94,9 @@ resource "ibm_container_vpc_cluster" "app_ocp_cluster-01" {
         name      = "${var.region}-2"
     }
 }
+*/
 
+/*
 ##############################################################################
 # Create OCP Cluster 
 ##############################################################################
@@ -119,6 +121,7 @@ resource "ibm_container_vpc_cluster" "app_ocp_cluster-02" {
         name      = "${var.region}-2"
     }
 }
+*/
 
 /*
 ##############################################################################
