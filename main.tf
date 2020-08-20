@@ -96,7 +96,7 @@ resource "ibm_container_vpc_cluster" "app_ocp_cluster-01" {
 }
 
 ##############################################################################
-# Create OCP Cluster
+# Create OCP Cluster 
 ##############################################################################
 resource "ibm_container_vpc_cluster" "app_ocp_cluster-02" {
     name                            = "pubfed-cp4i-01"
